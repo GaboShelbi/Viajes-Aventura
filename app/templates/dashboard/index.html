@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="text-center">
+  <h2>Bienvenido, {{ user_name }}</h2>
+  <p class="lead">Selecciona una opción para comenzar:</p>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('destination.list_destinations') }}" class="btn btn-outline-primary w-100">
+        🌍 Gestionar Destinos
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('package.list_packages') }}" class="btn btn-outline-success w-100">
+        🎒 Paquetes Turísticos
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="{{ url_for('reservation.list_reservations') }}" class="btn btn-outline-info w-100">
+        📅 Reservas
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

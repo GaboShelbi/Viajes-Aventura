@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block title %}Reservas{% endblock %}
+{% block content %}
+<h3 class="mb-3">📅 Reservas</h3>
+<a href="{{ url_for('reservation.add_reservation') }}" class="btn btn-primary mb-3">Nueva Reserva</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Paquete</th>
+      <th>Fecha de Reserva</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in reservas %}
+    <tr>
+      <td>{{ r.usuario }}</td>
+      <td>{{ r.paquete }}</td>
+      <td>{{ r.fecha_reserva }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

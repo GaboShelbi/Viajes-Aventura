@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block title %}Gestión de Destinos{% endblock %}
+{% block content %}
+<h3 class="mb-3">🌍 Lista de Destinos</h3>
+<a href="{{ url_for('destination.add_destination') }}" class="btn btn-primary mb-3">Agregar Nuevo Destino</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Actividades</th>
+      <th>Costo</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in destinos %}
+    <tr>
+      <td>{{ d.nombre }}</td>
+      <td>{{ d.descripcion }}</td>
+      <td>{{ d.actividades }}</td>
+      <td>${{ d.costo }}</td>
+      <td>
+        <a href="{{ url_for('destination.edit_destination', id=d.id) }}" class="btn btn-warning btn-sm">Editar</a>
+        <a href="{{ url_for('destination.delete_destination', id=d.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
