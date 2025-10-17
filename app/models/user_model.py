@@ -12,11 +12,11 @@ class UserModel:
         return user
 
     @staticmethod
-    def create_user(nombre, email, password):
+    def create_user(nombre, email, password, rol='cliente'):
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (nombre, email, password) VALUES (%s, %s, %s)",
-                       (nombre, email, password))
+        cursor.execute("INSERT INTO users (nombre, email, password, rol) VALUES (%s, %s, %s, %s)",
+                       (nombre, email, password, rol))
         conn.commit()
         cursor.close()
         conn.close()
