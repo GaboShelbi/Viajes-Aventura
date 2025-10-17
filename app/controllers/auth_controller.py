@@ -13,7 +13,8 @@ def login():
         if user and bcrypt.check_password_hash(user['password'], password):
             session['user_id'] = user['id']
             session['user_name'] = user['nombre']
-            session['user_rol'] = user['rol']
+            session['role'] = user['rol']
+
             return redirect(url_for('dashboard.index'))
         else:
             flash('Credenciales incorrectas', 'danger')

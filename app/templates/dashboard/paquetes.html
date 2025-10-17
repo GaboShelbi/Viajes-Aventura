@@ -1,16 +1,21 @@
 {% extends 'layout.html' %}
 {% block title %}Gestión de Paquetes{% endblock %}
+
 {% block content %}
 <h3 class="mb-3">🎒 Paquetes Turísticos</h3>
+{% if session.get('role') == 'admin' %}
 <a href="{{ url_for('package.add_package') }}" class="btn btn-success mb-3">Nuevo Paquete</a>
-
+{% endif %}
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
       <th>Nombre</th>
       <th>Fechas</th>
       <th>Destinos</th>
+      <th>Precio Total</th>
+         {% if session.get('role') == 'admin' %}
       <th>Acciones</th>
+        {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -19,9 +24,13 @@
       <td>{{ p.nombre }}</td>
       <td>{{ p.fecha_inicio }} → {{ p.fecha_fin }}</td>
       <td>{{ p.destinos }}</td>
+      <td>${{ p.precio_total }}</td>
+       {% if session.get('role') == 'admin' %}
       <td>
+        <a href="{{ url_for('package.edit_package', id=p.id) }}" class="btn btn-primary btn-sm">Editar</a>
         <a href="{{ url_for('package.delete_package', id=p.id) }}" class="btn btn-danger btn-sm">Eliminar</a>
       </td>
+       {% endif %}
     </tr>
     {% endfor %}
   </tbody>

@@ -1,25 +1,46 @@
 {% extends 'layout.html' %}
 {% block title %}{{ action }} Destino{% endblock %}
+
 {% block content %}
-<h3>{{ action }} Destino</h3>
-<form method="post">
+<h3 class="mb-3">{{ action }} Destino</h3>
+
+{# Solo el administrador puede acceder al formulario #}
+{% if session.get('role') == 'admin' %}
+<form method="post" class="shadow p-4 bg-light rounded">
   <div class="mb-3">
-    <label class="form-label">Nombre</label>
-    <input type="text" name="nombre" class="form-control" required value="{{ destino.nombre if destino else '' }}">
+    <label class="form-label fw-bold">Nombre</label>
+    <input type="text" name="nombre" class="form-control" required
+           value="{{ destino.nombre if destino else '' }}">
   </div>
+
   <div class="mb-3">
-    <label class="form-label">Descripción</label>
-    <textarea name="descripcion" class="form-control" required>{{ destino.descripcion if destino else '' }}</textarea>
+    <label class="form-label fw-bold">Descripción</label>
+    <textarea name="descripcion" class="form-control" rows="3" required>{{ destino.descripcion if destino else '' }}</textarea>
   </div>
+
   <div class="mb-3">
-    <label class="form-label">Actividades</label>
-    <input type="text" name="actividades" class="form-control" required value="{{ destino.actividades if destino else '' }}">
+    <label class="form-label fw-bold">Actividades</label>
+    <input type="text" name="actividades" class="form-control" required
+           value="{{ destino.actividades if destino else '' }}">
   </div>
+
   <div class="mb-3">
-    <label class="form-label">Costo</label>
-    <input type="number" step="0.01" name="costo" class="form-control" required value="{{ destino.costo if destino else '' }}">
+    <label class="form-label fw-bold">Costo</label>
+    <div class="input-group">
+      <span class="input-group-text">$</span>
+      <input type="number" step="0.01" name="costo" class="form-control" required
+             value="{{ destino.costo if destino else '' }}">
+    </div>
   </div>
-  <button type="submit" class="btn btn-success">{{ action }}</button>
-  <a href="{{ url_for('destination.list_destinations') }}" class="btn btn-secondary">Cancelar</a>
+
+  <div class="d-flex justify-content-between">
+    <button type="submit" class="btn btn-success">{{ action }}</button>
+    <a href="{{ url_for('destination.list_destinations') }}" class="btn btn-secondary">Cancelar</a>
+  </div>
 </form>
+{% else %}
+  <div class="alert alert-danger mt-4 text-center">
+    🚫 No tienes permisos para acceder a esta sección.
+  </div>
+{% endif %}
 {% endblock %}

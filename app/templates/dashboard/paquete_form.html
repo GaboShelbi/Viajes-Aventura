@@ -1,30 +1,45 @@
 {% extends 'layout.html' %}
 {% block title %}{{ action }} Paquete{% endblock %}
+
 {% block content %}
 <h3>{{ action }} Paquete Turístico</h3>
+
+{# Solo el administrador puede acceder al formulario #}
+{% if session.get('role') == 'admin' %}
+
 <form method="post">
   <div class="mb-3">
     <label class="form-label">Nombre</label>
-    <input type="text" name="nombre" class="form-control" required>
+    <input type="text" name="nombre" class="form-control" value="{{ paquete.nombre if paquete }}" required>
   </div>
+
   <div class="mb-3">
     <label class="form-label">Fecha Inicio</label>
-    <input type="date" name="fecha_inicio" class="form-control" required>
+    <input type="date" name="fecha_inicio" class="form-control" value="{{ paquete.fecha_inicio if paquete }}" required>
   </div>
+
   <div class="mb-3">
     <label class="form-label">Fecha Fin</label>
-    <input type="date" name="fecha_fin" class="form-control" required>
+    <input type="date" name="fecha_fin" class="form-control" value="{{ paquete.fecha_fin if paquete }}" required>
   </div>
+
   <div class="mb-3">
     <label class="form-label">Destinos incluidos</label>
     {% for d in destinos %}
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="destinos" value="{{ d.id }}">
-      <label class="form-check-label">{{ d.nombre }}</label>
-    </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="destinos" value="{{ d.id }}"
+          {% if paquete and d.id|string in paquete.destinos_ids.split(',') %}checked{% endif %}>
+        <label class="form-check-label">{{ d.nombre }} - ${{ d.costo }}</label>
+      </div>
     {% endfor %}
   </div>
+
   <button type="submit" class="btn btn-success">{{ action }}</button>
   <a href="{{ url_for('package.list_packages') }}" class="btn btn-secondary">Cancelar</a>
 </form>
+{% else %}
+  <div class="alert alert-danger mt-4 text-center">
+    🚫 No tienes permisos para acceder a esta sección.
+  </div>
+{% endif %}
 {% endblock %}

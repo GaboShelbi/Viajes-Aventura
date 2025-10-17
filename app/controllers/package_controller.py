@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, session
+from flask import render_template, request, redirect, url_for, flash
 from app.models.package_model import PackageModel
 from app.models.destination_model import DestinationModel
 from app.utils.auth_utils import admin_required
@@ -17,6 +17,7 @@ def add_package():
         PackageModel.create(nombre, fecha_inicio, fecha_fin, destinos)
         flash('Paquete creado exitosamente', 'success')
         return redirect(url_for('package.list_packages'))
+    
     destinos = DestinationModel.get_all()
     return render_template('dashboard/paquete_form.html', destinos=destinos, action='Agregar')
 
